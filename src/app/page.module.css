@@ -1,0 +1,22 @@
+.main {
+  background-color: #ededed;
+  padding: 40px 60px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.recipeCount {
+  margin-left: auto;
+  font-weight: 700;
+}
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
