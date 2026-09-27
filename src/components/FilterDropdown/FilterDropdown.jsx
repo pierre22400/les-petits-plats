@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import styles from "./FilterDropdown.module.css";
 
 export default function FilterDropdown({
@@ -12,14 +13,15 @@ export default function FilterDropdown({
 
   return (
     <div className={styles.container}>
-<button
-  type="button"
-  key={option}
-  className={styles.option}
-  onClick={() => onSelect(option)}
->
-  {option}
-</button>
+      <button
+        type="button"
+        className={styles.filter}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+      >
+        <span>{label}</span>
+        <span>⌄</span>
+      </button>
 
       {isOpen && (
         <div className={styles.options}>
@@ -28,6 +30,7 @@ export default function FilterDropdown({
               type="button"
               key={option}
               className={styles.option}
+              onClick={() => onSelect?.(option)}
             >
               {option}
             </button>

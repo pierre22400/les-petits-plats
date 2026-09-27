@@ -20,3 +20,16 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
 }
+
+.selectedTags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.tag {
+  padding: 8px 12px;
+  background-color: #ffd15b;
+  border-radius: 10px;
+}
