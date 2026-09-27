@@ -40,6 +40,7 @@ export default function Home() {
     const [selectedIngredients, setSelectedIngredients] = useState([]);
     const [selectedAppliances, setSelectedAppliances] = useState([]);
     const [selectedUtensils, setSelectedUtensils] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
 
     function handleIngredientSelect(ingredient) {
@@ -97,6 +98,16 @@ export default function Home() {
         );
     }
     const filteredRecipes = recipes.filter((recipe) => {
+        const normalizedSearch = normalizeText(searchQuery);
+
+        const matchesMainSearch =
+            normalizedSearch.length < 3 ||
+            normalizeText(recipe.name).includes(normalizedSearch) ||
+            normalizeText(recipe.description).includes(normalizedSearch) ||
+            recipe.ingredients.some((ingredient) =>
+                normalizeText(ingredient.ingredient).includes(normalizedSearch)
+            );
+
         const matchesIngredients = selectedIngredients.every(
             (selectedIngredient) =>
                 recipe.ingredients.some(
@@ -122,6 +133,7 @@ export default function Home() {
         );
 
         return (
+            matchesMainSearch &&
             matchesIngredients &&
             matchesAppliances &&
             matchesUtensils
@@ -182,8 +194,10 @@ export default function Home() {
 
     return (
         <>
-            <Hero />
-
+            <Hero
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+            />
             <main className={styles.main}>
                 <section className={styles.filters}>
                     <FilterDropdown
@@ -250,7 +264,12 @@ export default function Home() {
                         </button>
                     ))}
                 </div>
-
+                {filteredRecipes.length === 0 && (
+                    <p className={styles.noResults}>
+                        Aucune recette ne contient « {searchQuery} ».
+                        Vous pouvez chercher « tarte aux pommes », « poisson », etc.
+                    </p>
+                )}
                 <section className={styles.recipeGrid}>
                     {filteredRecipes.map((recipe) => (
                         <RecipeCard
