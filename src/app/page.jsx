@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import styles from "./page.module.css";
 
 import Hero from "@/components/Hero/Hero";
@@ -25,6 +28,15 @@ function getUniqueValues(values) {
     });
 }
 
+
+function normalizeText(text) {
+    return text
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+}
+
 //flatMap() → rassemble les valeurs et getUniqueValues() → retire les doublons
 
 export default function Home() {
@@ -43,6 +55,7 @@ export default function Home() {
     const utensilOptions = getUniqueValues(
         recipes.flatMap((recipe) => recipe.ustensils)
     );
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
     return (
         <>
             <Hero />
@@ -52,6 +65,7 @@ export default function Home() {
                     <FilterDropdown
                         label="Ingrédients"
                         options={ingredientOptions}
+                        onSelect={handleIngredientSelect}
                     />
 
                     <FilterDropdown
@@ -77,9 +91,37 @@ export default function Home() {
                         />
                     ))}
                 </section>
+
+                <div className={styles.selectedTags}>
+                    {selectedIngredients.map((ingredient) => (
+                        <span
+                            key={ingredient}
+                            className={styles.tag}
+                        >
+                            {ingredient}
+                        </span>
+                    ))}
+                </div>
             </main>
         </>
     );
 }
 
 
+function handleIngredientSelect(ingredient) {
+    setSelectedIngredients((currentIngredients) => [
+        ...currentIngredients,
+        ingredient
+    ]);
+}
+
+
+const filteredRecipes = recipes.filter((recipe) =>
+    selectedIngredients.every((selectedIngredient) =>
+        recipe.ingredients.some(
+            (ingredient) =>
+                normalizeText(ingredient.ingredient) ===
+                normalizeText(selectedIngredient)
+        )
+    )
+);

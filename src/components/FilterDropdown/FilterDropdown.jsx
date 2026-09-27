@@ -5,21 +5,21 @@ import styles from "./FilterDropdown.module.css";
 
 export default function FilterDropdown({
   label,
-  options
+  options,
+  onSelect
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className={styles.container}>
-      <button
-        type="button"
-        className={styles.filter}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-      >
-        <span>{label}</span>
-        <span>⌄</span>
-      </button>
+<button
+  type="button"
+  key={option}
+  className={styles.option}
+  onClick={() => onSelect(option)}
+>
+  {option}
+</button>
 
       {isOpen && (
         <div className={styles.options}>
