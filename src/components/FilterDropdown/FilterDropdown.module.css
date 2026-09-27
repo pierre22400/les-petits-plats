@@ -42,3 +42,72 @@
 .option:hover {
   background-color: #ffd15b;
 }
+
+.container {
+  position: relative;
+}
+
+.filter {
+  min-width: 180px;
+  padding: 16px 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 10;
+
+  width: 250px;
+
+  background-color: white;
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.searchInput {
+  width: calc(100% - 24px);
+  margin: 12px;
+  padding: 10px;
+
+  border: 1px solid #c6c6c6;
+  border-radius: 6px;
+}
+
+.optionList {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.option {
+  width: 100%;
+  padding: 10px 16px;
+
+  text-align: left;
+
+  background-color: white;
+  border: none;
+
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: #ffd15b;
+}
+
+.noOption {
+  padding: 12px 16px;
+  margin: 0;
+}

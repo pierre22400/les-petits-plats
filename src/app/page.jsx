@@ -131,6 +131,14 @@ export default function Home() {
                         normalizeText(selectedUtensil)
                 )
         );
+        const hasMainSearch =
+            normalizeText(searchQuery).length >= 3;
+
+        const hasSelectedTags =
+            selectedIngredients.length > 0 ||
+            selectedAppliances.length > 0 ||
+            selectedUtensils.length > 0;
+
 
         return (
             matchesMainSearch &&
@@ -266,8 +274,12 @@ export default function Home() {
                 </div>
                 {filteredRecipes.length === 0 && (
                     <p className={styles.noResults}>
-                        Aucune recette ne contient « {searchQuery} ».
-                        Vous pouvez chercher « tarte aux pommes », « poisson », etc.
+                        {hasMainSearch
+                            ? `Aucune recette ne contient « ${searchQuery} ». Vous pouvez chercher « tarte aux pommes », « poisson », etc.`
+                            : hasSelectedTags
+                                ? "Aucune recette ne correspond aux filtres sélectionnés."
+                                : "Aucune recette disponible."
+                        }
                     </p>
                 )}
                 <section className={styles.recipeGrid}>
