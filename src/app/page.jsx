@@ -251,35 +251,15 @@ export default function Home() {
                     ))}
                 </div>
 
-                {selectedAppliances.map((appliance) => (
-                    <span
-                        key={`appliance-${appliance}`}
-                        className={styles.tag}
-                    >
-                        {appliance}
-                    </span>
-                ))}
-
-                {selectedUtensils.map((utensil) => (
-                    <span
-                        key={`utensil-${utensil}`}
-                        className={styles.tag}
-                    >
-                        {utensil}
-                    </span>
-                ))}
-            </div>
-
-
-            <section className={styles.recipeGrid}>
-                {filteredRecipes.map((recipe) => (
-                    <RecipeCard
-                        key={recipe.id}
-                        {...recipe}
-                    />
-                ))}
-            </section>
-        </main >
-    </>
-  );
+                <section className={styles.recipeGrid}>
+                    {filteredRecipes.map((recipe) => (
+                        <RecipeCard
+                            key={recipe.id}
+                            {...recipe}
+                        />
+                    ))}
+                </section>
+            </main>
+        </>
+    );
 }
