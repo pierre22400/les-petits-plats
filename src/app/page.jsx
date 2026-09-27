@@ -10,13 +10,21 @@ import RecipeCard from "@/components/RecipeCard/RecipeCard";
 
 import recipes from "@/data/recipes.json";
 
+
+function normalizeText(text) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("fr")
+    .trim();
+}
+
+
 function getUniqueValues(values) {
   const valuesAlreadySeen = new Set();
 
   return values.filter((value) => {
-    const normalizedValue = value
-      .trim()
-      .toLocaleLowerCase("fr");
+    const normalizedValue = normalizeText(value);
 
     if (valuesAlreadySeen.has(normalizedValue)) {
       return false;
@@ -27,32 +35,12 @@ function getUniqueValues(values) {
   });
 }
 
-function normalizeText(text) {
-  return text
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .trim();
-}
 
 export default function Home() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [selectedAppliances, setSelectedAppliances] = useState([]);
+  const [selectedUtensils, setSelectedUtensils] = useState([]);
 
-  const ingredientOptions = getUniqueValues(
-    recipes.flatMap((recipe) =>
-      recipe.ingredients.map(
-        (ingredient) => ingredient.ingredient
-      )
-    )
-  );
-
-  const applianceOptions = getUniqueValues(
-    recipes.map((recipe) => recipe.appliance)
-  );
-
-  const utensilOptions = getUniqueValues(
-    recipes.flatMap((recipe) => recipe.ustensils)
-  );
 
   function handleIngredientSelect(ingredient) {
     setSelectedIngredients((currentIngredients) => [
@@ -61,25 +49,106 @@ export default function Home() {
     ]);
   }
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    selectedIngredients.every((selectedIngredient) =>
-      recipe.ingredients.some(
-        (ingredient) =>
-          normalizeText(ingredient.ingredient) ===
-          normalizeText(selectedIngredient)
+
+  function handleApplianceSelect(appliance) {
+    setSelectedAppliances((currentAppliances) => [
+      ...currentAppliances,
+      appliance
+    ]);
+  }
+
+
+  function handleUtensilSelect(utensil) {
+    setSelectedUtensils((currentUtensils) => [
+      ...currentUtensils,
+      utensil
+    ]);
+  }
+
+
+  const filteredRecipes = recipes.filter((recipe) => {
+    const matchesIngredients = selectedIngredients.every(
+      (selectedIngredient) =>
+        recipe.ingredients.some(
+          (ingredient) =>
+            normalizeText(ingredient.ingredient) ===
+            normalizeText(selectedIngredient)
+        )
+    );
+
+    const matchesAppliances = selectedAppliances.every(
+      (selectedAppliance) =>
+        normalizeText(recipe.appliance) ===
+        normalizeText(selectedAppliance)
+    );
+
+    const matchesUtensils = selectedUtensils.every(
+      (selectedUtensil) =>
+        recipe.ustensils.some(
+          (utensil) =>
+            normalizeText(utensil) ===
+            normalizeText(selectedUtensil)
+        )
+    );
+
+    return (
+      matchesIngredients &&
+      matchesAppliances &&
+      matchesUtensils
+    );
+  });
+
+
+  const ingredientOptions = getUniqueValues(
+    filteredRecipes.flatMap((recipe) =>
+      recipe.ingredients.map(
+        (ingredient) => ingredient.ingredient
       )
     )
   );
 
-  const availableIngredientOptions =
-    ingredientOptions.filter(
-      (ingredient) =>
-        !selectedIngredients.some(
-          (selectedIngredient) =>
-            normalizeText(selectedIngredient) ===
-            normalizeText(ingredient)
-        )
-    );
+
+  const applianceOptions = getUniqueValues(
+    filteredRecipes.map((recipe) => recipe.appliance)
+  );
+
+
+  const utensilOptions = getUniqueValues(
+    filteredRecipes.flatMap(
+      (recipe) => recipe.ustensils
+    )
+  );
+
+
+  const availableIngredientOptions = ingredientOptions.filter(
+    (ingredient) =>
+      !selectedIngredients.some(
+        (selectedIngredient) =>
+          normalizeText(selectedIngredient) ===
+          normalizeText(ingredient)
+      )
+  );
+
+
+  const availableApplianceOptions = applianceOptions.filter(
+    (appliance) =>
+      !selectedAppliances.some(
+        (selectedAppliance) =>
+          normalizeText(selectedAppliance) ===
+          normalizeText(appliance)
+      )
+  );
+
+
+  const availableUtensilOptions = utensilOptions.filter(
+    (utensil) =>
+      !selectedUtensils.some(
+        (selectedUtensil) =>
+          normalizeText(selectedUtensil) ===
+          normalizeText(utensil)
+      )
+  );
+
 
   return (
     <>
@@ -95,12 +164,14 @@ export default function Home() {
 
           <FilterDropdown
             label="Appareils"
-            options={applianceOptions}
+            options={availableApplianceOptions}
+            onSelect={handleApplianceSelect}
           />
 
           <FilterDropdown
             label="Ustensiles"
-            options={utensilOptions}
+            options={availableUtensilOptions}
+            onSelect={handleUtensilSelect}
           />
 
           <p className={styles.recipeCount}>
@@ -108,16 +179,36 @@ export default function Home() {
           </p>
         </section>
 
+
         <div className={styles.selectedTags}>
           {selectedIngredients.map((ingredient) => (
             <span
-              key={ingredient}
+              key={`ingredient-${ingredient}`}
               className={styles.tag}
             >
               {ingredient}
             </span>
           ))}
+
+          {selectedAppliances.map((appliance) => (
+            <span
+              key={`appliance-${appliance}`}
+              className={styles.tag}
+            >
+              {appliance}
+            </span>
+          ))}
+
+          {selectedUtensils.map((utensil) => (
+            <span
+              key={`utensil-${utensil}`}
+              className={styles.tag}
+            >
+              {utensil}
+            </span>
+          ))}
         </div>
+
 
         <section className={styles.recipeGrid}>
           {filteredRecipes.map((recipe) => (
