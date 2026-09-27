@@ -131,13 +131,6 @@ export default function Home() {
                         normalizeText(selectedUtensil)
                 )
         );
-        const hasMainSearch =
-            normalizeText(searchQuery).length >= 3;
-
-        const hasSelectedTags =
-            selectedIngredients.length > 0 ||
-            selectedAppliances.length > 0 ||
-            selectedUtensils.length > 0;
 
 
         return (
@@ -147,6 +140,13 @@ export default function Home() {
             matchesUtensils
         );
     });
+    const hasMainSearch =
+        normalizeText(searchQuery).length >= 3;
+
+    const hasSelectedTags =
+        selectedIngredients.length > 0 ||
+        selectedAppliances.length > 0 ||
+        selectedUtensils.length > 0;
 
 
     const ingredientOptions = getUniqueValues(
