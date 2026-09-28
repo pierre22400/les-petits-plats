@@ -18,6 +18,12 @@
   align-items: start;
 }
 
+.meta {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
 .imageContainer {
   position: relative;
 

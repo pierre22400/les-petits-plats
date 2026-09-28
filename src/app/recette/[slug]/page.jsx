@@ -6,20 +6,14 @@ import { notFound } from "next/navigation";
 
 import styles from "./page.module.css";
 
-
 export default async function RecipePage({ params }) {
   const { slug } = await params;
 
-  const recipe = recipes.find(
-    (currentRecipe) =>
-      currentRecipe.slug === slug
-  );
-
+  const recipe = recipes.find((currentRecipe) => currentRecipe.slug === slug);
 
   if (!recipe) {
     notFound();
   }
-
 
   return (
     <main className={styles.main}>
@@ -34,84 +28,54 @@ export default async function RecipePage({ params }) {
           />
         </div>
 
-
         <div className={styles.content}>
-          <h1 className={styles.title}>
-            {recipe.name}
-          </h1>
-
+          <h1 className={styles.title}>{recipe.name}</h1>
 
           <div className={styles.meta}>
-            <span className={styles.metaItem}>
-              {recipe.time} min
-            </span>
+            <div>
+              <h2 className={styles.sectionTitle}>TEMPS DE PREPARATION</h2>
 
-            <span className={styles.metaItem}>
-              {recipe.servings} portions
-            </span>
+              <p className={styles.metaItem}>{recipe.time} min</p>
+            </div>
           </div>
-
-
-          <h2 className={styles.sectionTitle}>
-            Recette
-          </h2>
-
-          <p className={styles.description}>
-            {recipe.description}
-          </p>
-
-
-          <h2 className={styles.sectionTitle}>
-            Ingrédients
-          </h2>
+          <h2 className={styles.sectionTitle}>Ingrédients</h2>
 
           <div className={styles.ingredients}>
-            {recipe.ingredients.map(
-              (ingredient, index) => (
-                <div
+            {recipe.ingredients.map((ingredient, index) => (
+              <div>
+                <li
                   key={`${ingredient.ingredient}-${index}`}
                   className={styles.ingredient}
-                >
-                  <span className={styles.ingredientName}>
-                    {ingredient.ingredient}
-                  </span>
+                ></li>
+                <span className={styles.ingredientName}>
+                  {ingredient.ingredient}
+                </span>
 
-                  <span className={styles.ingredientQuantity}>
-                    {ingredient.quantity !== undefined &&
-                      ingredient.quantity}
+                <span className={styles.ingredientQuantity}>
+                  {ingredient.quantity !== undefined && ingredient.quantity}
 
-                    {ingredient.unit &&
-                      ` ${ingredient.unit}`}
-                  </span>
-                </div>
-              )
-            )}
+                  {ingredient.unit && ` ${ingredient.unit}`}
+                </span>
+              </div>
+            ))}
           </div>
 
+          <h2 className={styles.sectionTitle}>Appareil</h2>
 
-          <h2 className={styles.sectionTitle}>
-            Appareil
-          </h2>
+          <p className={styles.appliance}>{recipe.appliance}</p>
 
-          <p className={styles.appliance}>
-            {recipe.appliance}
-          </p>
-
-
-          <h2 className={styles.sectionTitle}>
-            Ustensiles
-          </h2>
+          <h2 className={styles.sectionTitle}>Ustensiles</h2>
 
           <ul className={styles.utensils}>
             {recipe.ustensils.map((utensil) => (
-              <li
-                key={utensil}
-                className={styles.utensil}
-              >
+              <li key={utensil} className={styles.utensil}>
                 {utensil}
               </li>
             ))}
           </ul>
+          <h2 className={styles.sectionTitle}>Recette</h2>
+
+          <p className={styles.description}>{recipe.description}</p>
         </div>
       </article>
     </main>
