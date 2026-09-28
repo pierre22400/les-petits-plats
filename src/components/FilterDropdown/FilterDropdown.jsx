@@ -3,15 +3,10 @@
 import { useState } from "react";
 
 import styles from "./FilterDropdown.module.css";
+import { normalizeText } from "@/utils/search";
 
 
-function normalizeText(text) {
-  return text
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("fr")
-    .trim();
-}
+
 
 
 export default function FilterDropdown({
