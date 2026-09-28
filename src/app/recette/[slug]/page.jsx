@@ -38,15 +38,13 @@ export default async function RecipePage({ params }) {
               <p className={styles.metaItem}>{recipe.time} min</p>
             </div>
           </div>
-          <h2 className={styles.sectionTitle}>Ingrédients</h2>
-
+<h2 className={styles.sectionTitle}> Ingrédients</h2>
           <div className={styles.ingredients}>
             {recipe.ingredients.map((ingredient, index) => (
-              <div>
-                <li
-                  key={`${ingredient.ingredient}-${index}`}
-                  className={styles.ingredient}
-                ></li>
+              <div
+                key={`${ingredient.ingredient}-${index}`}
+                className={styles.ingredient}
+              >
                 <span className={styles.ingredientName}>
                   {ingredient.ingredient}
                 </span>
