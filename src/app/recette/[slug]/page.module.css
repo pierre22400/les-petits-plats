@@ -8,13 +8,13 @@
 
 .recipe {
   width: 100%;
-  max-width: 1250px;
+  max-width: 1180px;
 
   margin: 0 auto;
 
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  gap: 70px;
+  grid-template-columns: 440px minmax(0, 1fr);
+  gap: 55px;
   align-items: start;
 }
 

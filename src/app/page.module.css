@@ -24,9 +24,7 @@
 .selectedTags {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-
-  min-height: 44px;
+  gap: 12px;  
   margin-bottom: 28px;
 }
 
@@ -49,7 +47,7 @@
 
 .recipeGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
   gap: 48px 40px;
 }
 
