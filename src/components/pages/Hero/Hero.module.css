@@ -1,11 +1,12 @@
 .hero {
   position: relative;
 
-  min-height: 560px;
-  padding: 40px 70px 70px;
+  min-height: 667px;
+  padding: 120px 70px 70px;
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   background-image:
@@ -19,20 +20,8 @@
   background-position: center;
 }
 
-.logo {
-  width: 100%;
-
-  margin-bottom: 100px;
-
-  color: white;
-
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
 .title {
-  max-width: 900px;
+  max-width: 9000px;
 
   margin: 0;
 
@@ -48,12 +37,8 @@
 
 @media (max-width: 700px) {
   .hero {
-    min-height: 440px;
-    padding: 28px 20px 50px;
-  }
-
-  .logo {
-    margin-bottom: 70px;
+    min-height: 500px;
+    padding: 100px 20px 50px;
   }
 
   .title {

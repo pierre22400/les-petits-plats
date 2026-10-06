@@ -1,36 +1,37 @@
-.hero {
-  position: relative;
-
-  min-height: 560px;
-  padding: 120px 70px 70px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  background-image:
-    linear-gradient(
-      rgba(0, 0, 0, 0.45),
-      rgba(0, 0, 0, 0.45)
-    ),
-    url("/images/recipes/Recette48.jpg");
-
-  background-size: cover;
-  background-position: center;
+.header {
+  width: 100%;
+  z-index: 10;
 }
 
-.title {
-  max-width: 760px;
+.homeHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
 
-  margin: 0;
+  padding: 48px 70px;
 
-  text-align: center;
+  background: transparent;
+}
 
-  color: #ffd15b;
+.pageHeader {
+  position: relative;
 
-  font-size: 44px;
+  padding: 16px 40px;
+
+  background-color: #1b1b1b;
+}
+
+.logo {
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1.2;
-  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.homeHeader .logo {
+  color: white;
+}
+
+.pageHeader .logo {
+  color: #ffd15b;
 }
