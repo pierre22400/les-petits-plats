@@ -6,11 +6,7 @@ export default function Hero({
   onSearchChange
 }) {
   return (
-    <header className={styles.hero}>
-      <div className={styles.logo}>
-        LES PETITS PLATS
-      </div>
-
+    <section className={styles.hero}>
       <h1 className={styles.title}>
         Découvrez nos recettes du quotidien, simples et délicieuses
       </h1>
@@ -19,6 +15,6 @@ export default function Hero({
         value={searchQuery}
         onChange={onSearchChange}
       />
-    </header>
+    </section>
   );
 }
