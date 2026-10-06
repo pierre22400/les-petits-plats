@@ -1,13 +1,10 @@
 "use client";
 
 import { useState } from "react";
-
 import styles from "./page.module.css";
-
-import Hero from "@/components/Hero/Hero";
+import Hero from "@/components/pages/Hero/Hero";
 import FilterDropdown from "@/components/FilterDropdown/FilterDropdown";
 import RecipeCard from "@/components/RecipeCard/RecipeCard";
-
 import recipes from "@/data/recipes.json";
 
 import {
@@ -16,9 +13,8 @@ import {
   getApplianceOptions,
   getUtensilOptions,
   normalizeText,
-  removeSelectedOptions
+  removeSelectedOptions,
 } from "@/utils/search";
-
 
 export default function Home() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
@@ -26,119 +22,82 @@ export default function Home() {
   const [selectedUtensils, setSelectedUtensils] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-
   function handleIngredientSelect(ingredient) {
     setSelectedIngredients((currentIngredients) => [
       ...currentIngredients,
-      ingredient
+      ingredient,
     ]);
   }
-
 
   function handleApplianceSelect(appliance) {
     setSelectedAppliances((currentAppliances) => [
       ...currentAppliances,
-      appliance
+      appliance,
     ]);
   }
-
 
   function handleUtensilSelect(utensil) {
-    setSelectedUtensils((currentUtensils) => [
-      ...currentUtensils,
-      utensil
-    ]);
+    setSelectedUtensils((currentUtensils) => [...currentUtensils, utensil]);
   }
-
 
   function handleIngredientRemove(ingredientToRemove) {
     setSelectedIngredients((currentIngredients) =>
       currentIngredients.filter(
         (ingredient) =>
-          normalizeText(ingredient) !==
-          normalizeText(ingredientToRemove)
-      )
+          normalizeText(ingredient) !== normalizeText(ingredientToRemove),
+      ),
     );
   }
-
 
   function handleApplianceRemove(applianceToRemove) {
     setSelectedAppliances((currentAppliances) =>
       currentAppliances.filter(
         (appliance) =>
-          normalizeText(appliance) !==
-          normalizeText(applianceToRemove)
-      )
+          normalizeText(appliance) !== normalizeText(applianceToRemove),
+      ),
     );
   }
-
 
   function handleUtensilRemove(utensilToRemove) {
     setSelectedUtensils((currentUtensils) =>
       currentUtensils.filter(
-        (utensil) =>
-          normalizeText(utensil) !==
-          normalizeText(utensilToRemove)
-      )
+        (utensil) => normalizeText(utensil) !== normalizeText(utensilToRemove),
+      ),
     );
   }
 
+  const filteredRecipes = filterRecipes(recipes, {
+    searchQuery,
+    selectedIngredients,
+    selectedAppliances,
+    selectedUtensils,
+  });
 
-  const filteredRecipes = filterRecipes(
-    recipes,
-    {
-      searchQuery,
-      selectedIngredients,
-      selectedAppliances,
-      selectedUtensils
-    }
+  const ingredientOptions = getIngredientOptions(filteredRecipes);
+  const applianceOptions = getApplianceOptions(filteredRecipes);
+  const utensilOptions = getUtensilOptions(filteredRecipes);
+  const availableIngredientOptions = removeSelectedOptions(
+    ingredientOptions,
+    selectedIngredients,
   );
-
-
-  const ingredientOptions =
-    getIngredientOptions(filteredRecipes);
-
-  const applianceOptions =
-    getApplianceOptions(filteredRecipes);
-
-  const utensilOptions =
-    getUtensilOptions(filteredRecipes);
-
-
-  const availableIngredientOptions =
-    removeSelectedOptions(
-      ingredientOptions,
-      selectedIngredients
-    );
-
-  const availableApplianceOptions =
-    removeSelectedOptions(
-      applianceOptions,
-      selectedAppliances
-    );
-
-  const availableUtensilOptions =
-    removeSelectedOptions(
-      utensilOptions,
-      selectedUtensils
-    );
-
-
-  const hasMainSearch =
-    normalizeText(searchQuery).length >= 3;
-
+  const availableApplianceOptions = removeSelectedOptions(
+    applianceOptions,
+    selectedAppliances,
+  );
+  const availableUtensilOptions = removeSelectedOptions(
+    utensilOptions,
+    selectedUtensils,
+  );
+  const hasMainSearch = normalizeText(searchQuery).length >= 3;
+  
   const hasSelectedTags =
     selectedIngredients.length > 0 ||
     selectedAppliances.length > 0 ||
     selectedUtensils.length > 0;
 
-
   return (
     <>
-      <Hero
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-      />
+      <Hero searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
       <main className={styles.main}>
         <section className={styles.filters}>
@@ -165,16 +124,13 @@ export default function Home() {
           </p>
         </section>
 
-
         <div className={styles.selectedTags}>
           {selectedIngredients.map((ingredient) => (
             <button
               type="button"
               key={`ingredient-${ingredient}`}
               className={styles.tag}
-              onClick={() =>
-                handleIngredientRemove(ingredient)
-              }
+              onClick={() => handleIngredientRemove(ingredient)}
               aria-label={`Supprimer le filtre ${ingredient}`}
             >
               <span>{ingredient}</span>
@@ -187,9 +143,7 @@ export default function Home() {
               type="button"
               key={`appliance-${appliance}`}
               className={styles.tag}
-              onClick={() =>
-                handleApplianceRemove(appliance)
-              }
+              onClick={() => handleApplianceRemove(appliance)}
               aria-label={`Supprimer le filtre ${appliance}`}
             >
               <span>{appliance}</span>
@@ -202,9 +156,7 @@ export default function Home() {
               type="button"
               key={`utensil-${utensil}`}
               className={styles.tag}
-              onClick={() =>
-                handleUtensilRemove(utensil)
-              }
+              onClick={() => handleUtensilRemove(utensil)}
               aria-label={`Supprimer le filtre ${utensil}`}
             >
               <span>{utensil}</span>
@@ -213,25 +165,19 @@ export default function Home() {
           ))}
         </div>
 
-
         {filteredRecipes.length === 0 && (
           <p className={styles.noResults}>
             {hasMainSearch
               ? `Aucune recette ne contient « ${searchQuery} ». Vous pouvez chercher « tarte aux pommes », « poisson », etc.`
               : hasSelectedTags
                 ? "Aucune recette ne correspond aux filtres sélectionnés."
-                : "Aucune recette disponible."
-            }
+                : "Aucune recette disponible."}
           </p>
         )}
 
-
         <section className={styles.recipeGrid}>
           {filteredRecipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              {...recipe}
-            />
+            <RecipeCard key={recipe.id} {...recipe} />
           ))}
         </section>
       </main>
