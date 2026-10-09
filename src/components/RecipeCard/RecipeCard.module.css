@@ -3,6 +3,7 @@
   flex-direction: column;
 
   min-width: 0;
+  height: 100%;
 
   background-color: white;
   border-radius: 21px;
@@ -51,7 +52,9 @@
   font-weight: 600;
 }
 
-.content h3 {
+.sectionLabel {
+  display: block;
+
   margin: 24px 0 12px;
 
   color: #7a7a7a;
@@ -101,17 +104,4 @@
   color: #7a7a7a;
 
   font-size: 14px;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-
-  min-width: 0;
-  height: 100%;
-
-  background-color: white;
-  border-radius: 21px;
-
-  overflow: hidden;
 }
