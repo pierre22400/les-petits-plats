@@ -16,6 +16,8 @@ import {
   removeSelectedOptions,
 } from "@/utils/search";
 
+import SelectedFilters from "@/components/SelectedFilters/SelectedFilters";
+
 export default function Home() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [selectedAppliances, setSelectedAppliances] = useState([]);
@@ -125,18 +127,10 @@ export default function Home() {
         </section>
 
         <div className={styles.selectedTags}>
-          {selectedIngredients.map((ingredient) => (
-            <button
-              type="button"
-              key={`ingredient-${ingredient}`}
-              className={styles.tag}
-              onClick={() => handleIngredientRemove(ingredient)}
-              aria-label={`Supprimer le filtre ${ingredient}`}
-            >
-              <span>{ingredient}</span>
-              <span aria-hidden="true">×</span>
-            </button>
-          ))}
+<SelectedFilters
+  filters={selectedIngredients}
+  onRemove={handleIngredientRemove}
+/>
 
           {selectedAppliances.map((appliance) => (
             <button
