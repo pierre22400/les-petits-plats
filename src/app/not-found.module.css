@@ -1,0 +1,40 @@
+.main {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  background-color: #ededed;
+}
+
+.content {
+  max-width: 560px;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 16px;
+  font-size: clamp(36px, 6vw, 64px);
+  color: #1b1b1b;
+}
+
+.message {
+  margin-bottom: 32px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.homeLink {
+  display: inline-block;
+  padding: 14px 24px;
+  border-radius: 12px;
+  background-color: #ffd15b;
+  color: #1b1b1b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.homeLink:focus-visible {
+  outline: 3px solid #1b1b1b;
+  outline-offset: 3px;
+}

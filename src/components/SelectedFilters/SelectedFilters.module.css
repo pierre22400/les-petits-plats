@@ -1,0 +1,23 @@
+.selectedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 10px 16px;
+
+  background-color: #ffd15b;
+  border: none;
+  border-radius: 10px;
+
+  color: #1b1b1b;
+  font-size: 14px;
+
+  cursor: pointer;
+}
