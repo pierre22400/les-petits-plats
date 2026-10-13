@@ -137,25 +137,10 @@ export default function Home() {
             onRemove={handleApplianceRemove}
           />
 
-<SelectedFilters
-  filters={selectedUtensils}
-  onRemove={handleUtensilRemove}
-/>
-
-
-
-          {selectedUtensils.map((utensil) => (
-            <button
-              type="button"
-              key={`utensil-${utensil}`}
-              className={styles.tag}
-              onClick={() => handleUtensilRemove(utensil)}
-              aria-label={`Supprimer le filtre ${utensil}`}
-            >
-              <span>{utensil}</span>
-              <span aria-hidden="true">×</span>
-            </button>
-          ))}
+          <SelectedFilters
+            filters={selectedUtensils}
+            onRemove={handleUtensilRemove}
+          />
         </div>
 
         {filteredRecipes.length === 0 && (

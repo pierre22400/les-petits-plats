@@ -9,7 +9,7 @@ import styles from "./SelectedFilters.module.css";
  */
 export default function SelectedFilters({ filters, onRemove }) {
 return (
-  <div className={styles.selectedTags}>
+  <>
     {filters.map((filter) => (
       <button
         type="button"
@@ -22,6 +22,6 @@ return (
         <span aria-hidden="true">×</span>
       </button>
     ))}
-  </div>
+  </>
 );
 }
