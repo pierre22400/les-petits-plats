@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import Hero from "@/components/pages/Hero/Hero";
 import FilterDropdown from "@/components/FilterDropdown/FilterDropdown";
 import RecipeCard from "@/components/RecipeCard/RecipeCard";
+import SelectedFilters from "@/components/SelectedFilters/SelectedFilters";
 import recipes from "@/data/recipes.json";
 
 import {
@@ -16,12 +17,20 @@ import {
   removeSelectedOptions,
 } from "@/utils/search";
 
+/**
+ * PAGE D’ACCUEIL — Les Petits Plats
+ * Gère les sélections dans un seul état parent et confie leur affichage
+ * au composant SelectedFilters, sans dupliquer le rendu des boutons.
+ */
+
+/** Affiche les recettes et pilote les recherches et les filtres combinés. */
 export default function Home() {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [selectedAppliances, setSelectedAppliances] = useState([]);
   const [selectedUtensils, setSelectedUtensils] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  /** Ajoute un ingrédient parmi les filtres actifs. */
   function handleIngredientSelect(ingredient) {
     setSelectedIngredients((currentIngredients) => [
       ...currentIngredients,
@@ -29,6 +38,7 @@ export default function Home() {
     ]);
   }
 
+  /** Ajoute un appareil parmi les filtres actifs. */
   function handleApplianceSelect(appliance) {
     setSelectedAppliances((currentAppliances) => [
       ...currentAppliances,
@@ -36,10 +46,12 @@ export default function Home() {
     ]);
   }
 
+  /** Ajoute un ustensile parmi les filtres actifs. */
   function handleUtensilSelect(utensil) {
     setSelectedUtensils((currentUtensils) => [...currentUtensils, utensil]);
   }
 
+  /** Retire un ingrédient en comparant les libellés normalisés. */
   function handleIngredientRemove(ingredientToRemove) {
     setSelectedIngredients((currentIngredients) =>
       currentIngredients.filter(
@@ -49,6 +61,7 @@ export default function Home() {
     );
   }
 
+  /** Retire un appareil en comparant les libellés normalisés. */
   function handleApplianceRemove(applianceToRemove) {
     setSelectedAppliances((currentAppliances) =>
       currentAppliances.filter(
@@ -58,6 +71,7 @@ export default function Home() {
     );
   }
 
+  /** Retire un ustensile en comparant les libellés normalisés. */
   function handleUtensilRemove(utensilToRemove) {
     setSelectedUtensils((currentUtensils) =>
       currentUtensils.filter(
@@ -124,46 +138,25 @@ export default function Home() {
           </p>
         </section>
 
-        <div className={styles.selectedTags}>
-          {selectedIngredients.map((ingredient) => (
-            <button
-              type="button"
-              key={`ingredient-${ingredient}`}
-              className={styles.tag}
-              onClick={() => handleIngredientRemove(ingredient)}
-              aria-label={`Supprimer le filtre ${ingredient}`}
-            >
-              <span>{ingredient}</span>
-              <span aria-hidden="true">×</span>
-            </button>
-          ))}
-
-          {selectedAppliances.map((appliance) => (
-            <button
-              type="button"
-              key={`appliance-${appliance}`}
-              className={styles.tag}
-              onClick={() => handleApplianceRemove(appliance)}
-              aria-label={`Supprimer le filtre ${appliance}`}
-            >
-              <span>{appliance}</span>
-              <span aria-hidden="true">×</span>
-            </button>
-          ))}
-
-          {selectedUtensils.map((utensil) => (
-            <button
-              type="button"
-              key={`utensil-${utensil}`}
-              className={styles.tag}
-              onClick={() => handleUtensilRemove(utensil)}
-              aria-label={`Supprimer le filtre ${utensil}`}
-            >
-              <span>{utensil}</span>
-              <span aria-hidden="true">×</span>
-            </button>
-          ))}
-        </div>
+        <SelectedFilters
+          groups={[
+            {
+              type: "ingredient",
+              values: selectedIngredients,
+              onRemove: handleIngredientRemove,
+            },
+            {
+              type: "appliance",
+              values: selectedAppliances,
+              onRemove: handleApplianceRemove,
+            },
+            {
+              type: "utensil",
+              values: selectedUtensils,
+              onRemove: handleUtensilRemove,
+            },
+          ]}
+        />
 
         {filteredRecipes.length === 0 && (
           <p className={styles.noResults}>
