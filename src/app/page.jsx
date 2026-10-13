@@ -91,7 +91,7 @@ export default function Home() {
     selectedUtensils,
   );
   const hasMainSearch = normalizeText(searchQuery).length >= 3;
-  
+
   const hasSelectedTags =
     selectedIngredients.length > 0 ||
     selectedAppliances.length > 0 ||
@@ -127,23 +127,22 @@ export default function Home() {
         </section>
 
         <div className={styles.selectedTags}>
+          <SelectedFilters
+            filters={selectedIngredients}
+            onRemove={handleIngredientRemove}
+          />
+
+          <SelectedFilters
+            filters={selectedAppliances}
+            onRemove={handleApplianceRemove}
+          />
+
 <SelectedFilters
-  filters={selectedIngredients}
-  onRemove={handleIngredientRemove}
+  filters={selectedUtensils}
+  onRemove={handleUtensilRemove}
 />
 
-          {selectedAppliances.map((appliance) => (
-            <button
-              type="button"
-              key={`appliance-${appliance}`}
-              className={styles.tag}
-              onClick={() => handleApplianceRemove(appliance)}
-              aria-label={`Supprimer le filtre ${appliance}`}
-            >
-              <span>{appliance}</span>
-              <span aria-hidden="true">×</span>
-            </button>
-          ))}
+
 
           {selectedUtensils.map((utensil) => (
             <button
